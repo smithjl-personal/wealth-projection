@@ -1,17 +1,35 @@
 <script setup lang="ts">
-	import HelloWorld from "./components/HelloWorld.vue";
+	import EditConfig from "./components/EditConfig.vue";
+	import type { Config } from "./types/config";
+	import { ref } from "vue";
+	import { v6 as uuidv6 } from "uuid";
+
+	const defaultConfig: Config = {
+		securities: [],
+		real_estate: [],
+	};
+	const config = ref(defaultConfig);
+
+	function setConfig(newConfig: Config) {
+		config.value = newConfig;
+	}
+
+	function addSecurity() {
+		config.value.securities.push({
+			id: uuidv6(),
+			name: "",
+			value: "",
+			estimated_apy: "",
+		});
+	}
 </script>
 
 <template>
-	<div>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vuejs.org/" target="_blank">
-			<img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-		</a>
-	</div>
-	<HelloWorld msg="Vite + Vue" />
+	<EditConfig
+		:config="config"
+		@add-security="addSecurity"
+		@pasted-valid-config="setConfig"
+	/>
 </template>
 
 <style scoped>
