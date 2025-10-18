@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import type { Config } from "../types/config";
 	import { isConfig } from "../utils/validators/configValidator";
-	import { defineEmits } from "vue";
+	import { defineEmits, defineProps } from "vue";
 
 	const emit = defineEmits([
 		"add-security",

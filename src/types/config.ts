@@ -1,16 +1,16 @@
 export type Config = {
-	securities: Security[];
-	real_estate: RealEstate[];
+	securities: InputSecurity[];
+	real_estate: InputRealEstate[];
 };
 
-export type Security = {
+export type InputSecurity = {
 	id: string;
 	name: string;
 	value: string;
 	estimated_apy: string;
 };
 
-export type RealEstate = {
+export type InputRealEstate = {
 	id: string;
 	name: string;
 	value: string;

@@ -1,4 +1,8 @@
-import type { Config, RealEstate, Security } from "../../types/config";
+import type {
+	Config,
+	InputRealEstate,
+	InputSecurity,
+} from "../../types/config";
 
 export function isConfig(obj: unknown): obj is Config {
 	if (
@@ -14,13 +18,13 @@ export function isConfig(obj: unknown): obj is Config {
 
 	return (
 		cfg.securities.every(
-			(sec: Security) =>
+			(sec: InputSecurity) =>
 				typeof sec.name === "string" &&
 				typeof sec.value === "string" &&
 				typeof sec.estimated_apy === "string",
 		) &&
 		cfg.real_estate.every(
-			(re: RealEstate) =>
+			(re: InputRealEstate) =>
 				typeof re.name === "string" &&
 				typeof re.value === "string" &&
 				typeof re.estimated_apy === "string" &&
