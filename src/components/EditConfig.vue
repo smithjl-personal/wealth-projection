@@ -1,6 +1,6 @@
 <script setup lang="ts">
-	import type { Config } from "../types/config";
-	import { isConfig } from "../utils/validators/configValidator";
+	import type { InputConfig } from "../types/config";
+	import { isInputConfig } from "../utils/config";
 	import { defineEmits, defineProps } from "vue";
 
 	const emit = defineEmits([
@@ -8,7 +8,7 @@
 		"add-real-estate",
 		"pasted-valid-config",
 	]);
-	const props = defineProps<{ config: Config }>();
+	const props = defineProps<{ config: InputConfig }>();
 
 	async function copyConfigToClipboard() {
 		const serializedConfig = JSON.stringify(props.config);
@@ -36,7 +36,7 @@
 			return;
 		}
 
-		if (!isConfig(parsedObject)) {
+		if (!isInputConfig(parsedObject)) {
 			alert("Invalid object (not config).");
 			return;
 		}

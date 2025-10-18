@@ -1,4 +1,5 @@
-export type Config = {
+/** This config is what the user has control over using form controls. Records the initial state. */
+export type InputConfig = {
 	securities: InputSecurity[];
 	real_estate: InputRealEstate[];
 };
@@ -17,4 +18,26 @@ export type InputRealEstate = {
 	estimated_apy: string;
 	mortgage_value: string;
 	mortgage_apy: string;
+};
+
+/** We use this parsed config to step through time and alter values from the initial config. */
+export type StepConfig = {
+	securities: StepSecurity[];
+	real_estate: StepRealEstate[];
+};
+
+export type StepSecurity = {
+	id: string;
+	name: string;
+	value: number;
+	estimated_apy: number;
+};
+
+export type StepRealEstate = {
+	id: string;
+	name: string;
+	value: number;
+	estimated_apy: number;
+	mortgage_value: number;
+	mortgage_apy: number;
 };

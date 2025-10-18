@@ -1,16 +1,16 @@
 <script setup lang="ts">
 	import EditConfig from "./components/EditConfig.vue";
-	import type { Config } from "./types/config";
+	import type { InputConfig } from "./types/config";
 	import { ref } from "vue";
 	import { v6 as uuidv6 } from "uuid";
 
-	const defaultConfig: Config = {
+	const defaultConfig: InputConfig = {
 		securities: [],
 		real_estate: [],
 	};
 	const config = ref(defaultConfig);
 
-	function setConfig(newConfig: Config) {
+	function setConfig(newConfig: InputConfig) {
 		config.value = newConfig;
 	}
 
