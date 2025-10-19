@@ -18,7 +18,8 @@ export function isInputConfig(obj: unknown): obj is InputConfig {
 			(sec) =>
 				typeof sec.name === "string" &&
 				typeof sec.value === "string" &&
-				typeof sec.estimated_apy === "string",
+				typeof sec.estimated_apy === "string" &&
+				typeof sec.added_monthly === "string",
 		) &&
 		config.real_estate.every(
 			(re) =>
@@ -43,6 +44,7 @@ export function inputConfigToStepConfig(inputConfig: InputConfig): StepConfig {
 			name: security.name,
 			value: zeroIfNaN(security.value),
 			estimated_apy: zeroIfNaN(security.estimated_apy),
+			added_monthly: zeroIfNaN(security.added_monthly),
 		};
 	});
 

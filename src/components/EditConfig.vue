@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	import type { InputConfig } from "../types/config";
 	import { isInputConfig } from "../utils/config";
-	import { defineEmits, defineProps } from "vue";
 
 	const emit = defineEmits([
 		"add-security",
@@ -65,6 +64,9 @@
 
 		<label>Estimated APY</label>
 		<input type="text" v-model="security.estimated_apy" />
+
+		<label>Added Monthly</label>
+		<input type="text" v-model="security.added_monthly" />
 
 		<hr />
 	</div>

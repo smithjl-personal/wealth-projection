@@ -9,6 +9,7 @@ export type InputSecurity = {
 	name: string;
 	value: string;
 	estimated_apy: string;
+	added_monthly: string;
 };
 
 export type InputRealEstate = {
@@ -31,6 +32,7 @@ export type StepSecurity = {
 	name: string;
 	value: number;
 	estimated_apy: number;
+	added_monthly: number;
 };
 
 export type StepRealEstate = {

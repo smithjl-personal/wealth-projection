@@ -20,6 +20,7 @@
 			name: "",
 			value: "",
 			estimated_apy: "",
+			added_monthly: "",
 		});
 	}
 </script>
