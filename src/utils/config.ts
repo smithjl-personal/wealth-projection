@@ -1,4 +1,4 @@
-import type { InputConfig, StepConfig } from "../types/config";
+import type { InputConfig, StepConfig, StepSecurity } from "../types/config";
 import { zeroIfNaN } from "./general";
 
 export function isInputConfig(obj: unknown): obj is InputConfig {
@@ -51,4 +51,17 @@ export function inputConfigToStepConfig(inputConfig: InputConfig): StepConfig {
 	// TODO: Set up this logic for real_estate as well.
 
 	return stepConfig;
+}
+
+export function getNextMonthSecurityStep(security: StepSecurity): StepSecurity {
+	const { value, added_monthly, estimated_apy } = security;
+
+	const newValueBeforeGrowth = value + added_monthly;
+	const monthlyRate = estimated_apy / 100 / 12;
+	const newValue = newValueBeforeGrowth * (1 + monthlyRate);
+
+	return {
+		...security,
+		value: newValue,
+	};
 }

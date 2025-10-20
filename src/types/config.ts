@@ -31,6 +31,8 @@ export type StepSecurity = {
 	id: string;
 	name: string;
 	value: number;
+
+	/** Formatted as a percentage. So we store `6` here which is `6%`. */
 	estimated_apy: number;
 	added_monthly: number;
 };

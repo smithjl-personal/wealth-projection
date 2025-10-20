@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import EditConfig from "./components/EditConfig.vue";
+	import ViewSimulation from "./components/ViewSimulation.vue";
 	import type { InputConfig } from "./types/config";
 	import { ref } from "vue";
 	import { v6 as uuidv6 } from "uuid";
@@ -31,6 +32,7 @@
 		@add-security="addSecurity"
 		@pasted-valid-config="setConfig"
 	/>
+	<ViewSimulation :config="config" />
 </template>
 
 <style scoped>
