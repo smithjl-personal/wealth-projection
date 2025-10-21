@@ -24,8 +24,15 @@ export default defineConfig([
 		languageOptions: { parserOptions: { parser: tseslint.parser } },
 	},
 
-	// Custom rule override for unused vars starting with "_"
 	{
+		// ESLint cannot find these types but VSCode can? Quick and dirty fix.
+		languageOptions: {
+			globals: {
+				ApexAxisChartSeries: "readonly",
+			},
+		},
+
+		// Custom rule override for unused vars starting with "_"
 		rules: {
 			"@typescript-eslint/no-unused-vars": [
 				"error",
