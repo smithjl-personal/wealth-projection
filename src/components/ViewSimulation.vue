@@ -10,6 +10,7 @@
 
 	const props = defineProps<{ config: InputConfig }>();
 
+	const yearsAhead = ref(5);
 	const series = ref<ApexAxisChartSeries>([]);
 	const chartOptions = ref<ApexOptions>({
 		title: {
@@ -44,8 +45,7 @@
 	});
 
 	function simulate() {
-		const yearsAhead = 5;
-		const monthsAhead = yearsAhead * 12;
+		const monthsAhead = yearsAhead.value * 12;
 		const inputConfig = props.config;
 		const initialStepConfig = inputConfigToStepConfig(inputConfig);
 		series.value = [];
@@ -74,6 +74,14 @@
 </script>
 
 <template>
+	<label>Simulation Distance</label>
+	<select v-model="yearsAhead">
+		<option :value="5">5 years</option>
+		<option :value="10">10 years</option>
+		<option :value="20">20 years</option>
+		<option :value="30">30 years</option>
+	</select>
+	<br />
 	<button type="button" @click="simulate">Simulate</button>
 	<VueApexCharts type="area" :options="chartOptions" :series="series" />
 </template>

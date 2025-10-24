@@ -42,9 +42,9 @@ export function inputConfigToStepConfig(inputConfig: InputConfig): StepConfig {
 		return {
 			id: security.id,
 			name: security.name,
-			value: zeroIfNaN(security.value),
+			value: zeroIfNaN(security.value.replace(",", "")),
 			estimated_apy: zeroIfNaN(security.estimated_apy),
-			added_monthly: zeroIfNaN(security.added_monthly),
+			added_monthly: zeroIfNaN(security.added_monthly.replace(",", "")),
 		};
 	});
 
