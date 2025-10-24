@@ -24,12 +24,25 @@
 			added_monthly: "",
 		});
 	}
+
+	function addRealEstate() {
+		config.value.real_estate.push({
+			id: uuidv6(),
+			name: "",
+			value: "",
+			estimated_apy: "",
+			mortgage_value: "",
+			mortgage_apy: "0",
+			mortgage_paid_monthly: "",
+		});
+	}
 </script>
 
 <template>
 	<EditConfig
 		:config="config"
 		@add-security="addSecurity"
+		@add-real-estate="addRealEstate"
 		@pasted-valid-config="setConfig"
 	/>
 	<ViewSimulation :config="config" />

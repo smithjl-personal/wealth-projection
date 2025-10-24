@@ -19,6 +19,7 @@ export type InputRealEstate = {
 	estimated_apy: string;
 	mortgage_value: string;
 	mortgage_apy: string;
+	mortgage_paid_monthly: string;
 };
 
 /** We use this parsed config to step through time and alter values from the initial config. */
@@ -44,4 +45,5 @@ export type StepRealEstate = {
 	estimated_apy: number;
 	mortgage_value: number;
 	mortgage_apy: number;
+	mortgage_paid_monthly: number;
 };

@@ -51,25 +51,86 @@
 	<button type="button" @click="pasteConfigFromClipboard">
 		Paste Config from Clipboard
 	</button>
-	<h1>
+	<h3>
 		<button type="button" @click="emit('add-security')">+</button>
 		Securities
-	</h1>
-	<div v-for="security in config.securities" :key="security.id">
-		<label>Name</label>
-		<input type="text" v-model="security.name" />
+	</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Current Value ($)</th>
+				<th>Estimated APY (%)</th>
+				<th>Added Per Month ($)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="security in config.securities" :key="security.id">
+				<td>
+					<input type="text" v-model="security.name" />
+				</td>
+				<td>
+					<input type="text" v-model="security.value" />
+				</td>
+				<td>
+					<input type="text" v-model="security.estimated_apy" />
+				</td>
+				<td>
+					<input type="text" v-model="security.added_monthly" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
-		<label>Current Value</label>
-		<input type="text" v-model="security.value" />
+	<h3>
+		<button type="button" @click="emit('add-real-estate')">+</button>
+		Real Estate
+	</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Property Value ($)</th>
+				<th>Estimated Property APY (%)</th>
+				<th>Mortgage Value ($)</th>
+				<th>Mortgage APY (%)</th>
+				<th>
+					Mortgage Paid Monthly ($)
 
-		<label>Estimated APY</label>
-		<input type="text" v-model="security.estimated_apy" />
-
-		<label>Added Monthly</label>
-		<input type="text" v-model="security.added_monthly" />
-
-		<hr />
-	</div>
+					<!-- TODO: Figure out a better spot to put this info. -->
+					<div>
+						This should only include principal and interest. Do not
+						include taxes and insurance here.
+					</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="real_estate in config.real_estate" :key="real_estate.id">
+				<td>
+					<input type="text" v-model="real_estate.name" />
+				</td>
+				<td>
+					<input type="text" v-model="real_estate.value" />
+				</td>
+				<td>
+					<input type="text" v-model="real_estate.estimated_apy" />
+				</td>
+				<td>
+					<input type="text" v-model="real_estate.mortgage_value" />
+				</td>
+				<td>
+					<input type="text" v-model="real_estate.mortgage_apy" />
+				</td>
+				<td>
+					<input
+						type="text"
+						v-model="real_estate.mortgage_paid_monthly"
+					/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </template>
 
 <style scoped>
