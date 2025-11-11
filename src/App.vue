@@ -43,7 +43,7 @@
 		:config="config"
 		@add-security="addSecurity"
 		@add-real-estate="addRealEstate"
-		@pasted-valid-config="setConfig"
+		@set-config="setConfig"
 	/>
 	<ViewSimulation :config="config" />
 </template>

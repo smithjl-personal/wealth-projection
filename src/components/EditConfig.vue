@@ -2,11 +2,7 @@
 	import type { InputConfig } from "../types/config";
 	import { isInputConfig } from "../utils/config";
 
-	const emit = defineEmits([
-		"add-security",
-		"add-real-estate",
-		"pasted-valid-config",
-	]);
+	const emit = defineEmits(["add-security", "add-real-estate", "set-config"]);
 	const props = defineProps<{ config: InputConfig }>();
 
 	async function copyConfigToClipboard() {
@@ -40,7 +36,36 @@
 			return;
 		}
 
-		emit("pasted-valid-config", parsedObject);
+		emit("set-config", parsedObject);
+	}
+
+	function saveConfigToLocalStorage() {
+		const config = props.config;
+		localStorage.setItem("config", JSON.stringify(config));
+	}
+	function loadConfigFromLocalStorage() {
+		const rawConfig = localStorage.getItem("config");
+		if (rawConfig === null) {
+			alert("No prior config was saved locally.");
+			return;
+		}
+
+		let parsedObject = {};
+		try {
+			parsedObject = JSON.parse(rawConfig);
+		} catch {
+			alert("Failed to parse object from local storage.");
+			return;
+		}
+
+		if (!isInputConfig(parsedObject)) {
+			alert(
+				"Object parsed from local storage, but format is not correct.",
+			);
+			return;
+		}
+
+		emit("set-config", parsedObject);
 	}
 </script>
 
@@ -50,6 +75,13 @@
 	</button>
 	<button type="button" @click="pasteConfigFromClipboard">
 		Paste Config from Clipboard
+	</button>
+	<br />
+	<button type="button" @click="saveConfigToLocalStorage">
+		Save Config to Local Storage
+	</button>
+	<button type="button" @click="loadConfigFromLocalStorage">
+		Load Config from Local Storage
 	</button>
 	<h3>
 		<button type="button" @click="emit('add-security')">+</button>
