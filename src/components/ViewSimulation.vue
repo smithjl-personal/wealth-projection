@@ -13,6 +13,13 @@
 	import type { ApexOptions } from "apexcharts";
 	import { ref } from "vue";
 
+	// Need this to satisfy the linter, since ApexCharts decided not to type this...
+	interface TooltipContext {
+		globals: {
+			seriesNames: string[];
+		};
+	}
+
 	const props = defineProps<{ config: InputConfig }>();
 
 	const yearsAhead = ref(5);
@@ -33,7 +40,50 @@
 			},
 		},
 		tooltip: {
-			enabled: false,
+			shared: true,
+			intersect: false,
+			custom: (opts: {
+				series: number[][];
+				_seriesIndex: number;
+				dataPointIndex: number;
+				w: TooltipContext;
+			}): string => {
+				const usdFormatter = new Intl.NumberFormat("en-US", {
+					style: "currency",
+					currency: "USD",
+				});
+				const { series, dataPointIndex, w } = opts;
+				let resultHTML = `<div style="color: black; padding:8px; text-align: left">`;
+
+				for (
+					let seriesIndex = 0;
+					seriesIndex < series.length;
+					seriesIndex++
+				) {
+					const assetName =
+						w?.globals?.seriesNames?.[seriesIndex] ??
+						`Series ${seriesIndex}`;
+					const assetValue =
+						series?.[seriesIndex]?.[dataPointIndex] ?? 0;
+					resultHTML += `
+                        <div>
+                            <span style="font-weight:700; margin-bottom:6px;">${assetName}</span>:
+                            ${usdFormatter.format(assetValue)}
+                        </div>`;
+				}
+
+				// Add up the values for each series at the given dataPointIndex.
+				const totalValue = series
+					.map((s) => s[dataPointIndex] ?? 0)
+					.reduce((prior, current) => prior + current, 0);
+				resultHTML += `
+                        <div style="margin-top:6px; border-top:1px solid #eee; padding-top:6px;">
+                            <strong>Total Net Worth:</strong> ${usdFormatter.format(totalValue)}
+                        </div>`;
+
+				resultHTML += `</div>`;
+				return resultHTML;
+			},
 		},
 		xaxis: {
 			type: "numeric",
@@ -41,10 +91,24 @@
 			title: {
 				text: "Months Ahead",
 			},
+			labels: {
+				formatter: (value: string) => parseInt(value).toFixed(0),
+			},
 		},
 		yaxis: {
 			title: {
 				text: "Net Worth",
+			},
+			labels: {
+				formatter: (value: number) => {
+					if (value >= 1_000_000) {
+						return `${(value / 1_000_000).toFixed(1)}M`;
+					} else if (value >= 1_000) {
+						return `${Math.round(value / 1_000)}K`;
+					} else {
+						return value.toString();
+					}
+				},
 			},
 		},
 	});
@@ -131,12 +195,10 @@
 	<br />
 	<button type="button" @click="simulate">Simulate</button>
 
-	<!-- TODO: Style this chart better, with nice tooltips? And other meta-data? -->
 	<VueApexCharts type="area" :options="chartOptions" :series="series" />
 
 	<!--
         TODO: Make new section to output some useful data. Like:
-        - When mortgages will be paid off.
         - When financial independence will be reached.
     -->
 	<h3>Notices</h3>
