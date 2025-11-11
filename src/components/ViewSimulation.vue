@@ -49,6 +49,8 @@
 		},
 	});
 
+	const notices = ref<string[]>([]);
+
 	function simulate() {
 		const monthsAhead = yearsAhead.value * 12;
 		const inputConfig = props.config;
@@ -56,6 +58,7 @@
 
 		// Reset simulation data.
 		series.value = [];
+		notices.value = [];
 
 		// Securities.
 		for (const security of initialStepConfig.securities) {
@@ -91,7 +94,21 @@
 					);
 					return;
 				}
-				steps[month] = getNextMonthRealEstateStep(priorMonth);
+
+				const thisMonth = getNextMonthRealEstateStep(priorMonth);
+
+				// Calculate notices.
+				if (
+					thisMonth.mortgage_value <= 0 &&
+					priorMonth.mortgage_value > 0
+				) {
+					const paidOffInYears = (month / 12).toFixed(1);
+					notices.value.push(
+						`Morgage is paid off on month ${month}, or ${paidOffInYears} years.`,
+					);
+				}
+
+				steps[month] = thisMonth;
 			}
 
 			// Now that the data is calculated, format it for apex-charts.
@@ -122,6 +139,8 @@
         - When mortgages will be paid off.
         - When financial independence will be reached.
     -->
+	<h3>Notices</h3>
+	<div v-for="notice in notices" :key="notice">{{ notice }}</div>
 </template>
 
 <style scoped></style>
