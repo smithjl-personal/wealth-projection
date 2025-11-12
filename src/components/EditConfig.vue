@@ -135,6 +135,7 @@
 						include taxes and insurance here.
 					</div>
 				</th>
+				<th>Assets After Payoff</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -160,13 +161,23 @@
 						v-model="real_estate.mortgage_paid_monthly"
 					/>
 				</td>
+				<td>
+					<select
+						v-model="real_estate.after_payoff_target_security_id"
+					>
+						<option value="">None</option>
+						<option
+							v-for="security in config.securities"
+							:value="security.id"
+							:key="security.id"
+						>
+							{{ security.name }}
+						</option>
+					</select>
+				</td>
 			</tr>
 		</tbody>
 	</table>
 </template>
 
-<style scoped>
-	.read-the-docs {
-		color: #888;
-	}
-</style>
+<style scoped></style>

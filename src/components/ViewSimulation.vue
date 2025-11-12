@@ -124,27 +124,9 @@
 		series.value = [];
 		notices.value = [];
 
-		// Securities.
-		for (const security of initialStepConfig.securities) {
-			const steps: StepSecurity[] = new Array(monthsAhead + 1);
-			steps[0] = security;
-			for (let month = 1; month <= monthsAhead; month++) {
-				const priorMonth = steps[month - 1];
-				if (priorMonth === undefined) {
-					alert(
-						"Can't calculate security value over time; no prior month.",
-					);
-					return;
-				}
-				steps[month] = getNextMonthSecurityStep(priorMonth);
-			}
-
-			// Now that the data is calculated, format it for apex-charts.
-			series.value.push({
-				name: security.name,
-				data: steps.map((s) => s.value),
-			});
-		}
+		// After mortgage is paid off, direct the funds elsewhere if requested.
+		// Key is "month-security.id"
+		const afterMortgagePayoff = new Map<string, number>();
 
 		// Real-estate.
 		for (const property of initialStepConfig.real_estate) {
@@ -170,6 +152,18 @@
 					notices.value.push(
 						`Morgage is paid off on month ${month}, or ${paidOffInYears} years.`,
 					);
+
+					// If we have a target after payoff, mark it.
+					if (thisMonth.after_payoff_target_security_id.length) {
+						const key =
+							month +
+							"-" +
+							thisMonth.after_payoff_target_security_id;
+						afterMortgagePayoff.set(
+							key,
+							thisMonth.mortgage_paid_monthly,
+						);
+					}
 				}
 
 				steps[month] = thisMonth;
@@ -179,6 +173,38 @@
 			series.value.push({
 				name: property.name,
 				data: steps.map((re) => re.value - re.mortgage_value),
+			});
+		}
+
+		// Securities.
+		for (const security of initialStepConfig.securities) {
+			const steps: StepSecurity[] = new Array(monthsAhead + 1);
+			steps[0] = security;
+			for (let month = 1; month <= monthsAhead; month++) {
+				const priorMonth = steps[month - 1];
+				if (priorMonth === undefined) {
+					alert(
+						"Can't calculate security value over time; no prior month.",
+					);
+					return;
+				}
+
+				const thisMonth = getNextMonthSecurityStep(priorMonth);
+
+				// Now, check if we just paid off a mortgage. If so, add that to the correct asset.
+				const key = month + "-" + thisMonth.id;
+				if (afterMortgagePayoff.has(key)) {
+					thisMonth.added_monthly +=
+						afterMortgagePayoff.get(key) ?? 0;
+				}
+
+				steps[month] = thisMonth;
+			}
+
+			// Now that the data is calculated, format it for apex-charts.
+			series.value.push({
+				name: security.name,
+				data: steps.map((s) => s.value),
 			});
 		}
 	}

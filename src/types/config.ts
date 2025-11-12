@@ -20,6 +20,7 @@ export type InputRealEstate = {
 	mortgage_value: string;
 	mortgage_apy: string;
 	mortgage_paid_monthly: string;
+	after_payoff_target_security_id: string;
 };
 
 /** We use this parsed config to step through time and alter values from the initial config. */
@@ -46,4 +47,7 @@ export type StepRealEstate = {
 	mortgage_value: number;
 	mortgage_apy: number;
 	mortgage_paid_monthly: number;
+
+	/** Where the money goes after the mortgage is paid off. */
+	after_payoff_target_security_id: string;
 };

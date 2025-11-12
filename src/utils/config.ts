@@ -31,7 +31,8 @@ export function isInputConfig(obj: unknown): obj is InputConfig {
 				typeof re.value === "string" &&
 				typeof re.estimated_apy === "string" &&
 				typeof re.mortgage_value === "string" &&
-				typeof re.mortgage_apy === "string",
+				typeof re.mortgage_apy === "string" &&
+				typeof re.after_payoff_target_security_id === "string",
 		)
 	);
 }
@@ -61,6 +62,7 @@ export function inputConfigToStepConfig(inputConfig: InputConfig): StepConfig {
 			mortgage_value: configNumberParse(re.mortgage_value),
 			mortgage_apy: configNumberParse(re.mortgage_apy),
 			mortgage_paid_monthly: configNumberParse(re.mortgage_paid_monthly),
+			after_payoff_target_security_id: re.after_payoff_target_security_id,
 		};
 	});
 
