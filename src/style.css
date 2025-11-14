@@ -65,6 +65,21 @@ button:focus-visible {
 	text-align: center;
 }
 
+table.table {
+	width: 100%;
+}
+table.table,
+table.table th,
+table.table td {
+	border: 1px solid grey;
+	border-collapse: collapse;
+	padding: 2px 10px 2px 10px;
+}
+table.table input,
+table.table select {
+	width: 90%;
+}
+
 @media (prefers-color-scheme: light) {
 	:root {
 		color: #213547;

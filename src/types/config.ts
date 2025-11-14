@@ -9,6 +9,7 @@ export type InputSecurity = {
 	name: string;
 	value: string;
 	estimated_apy: string;
+	added_monthly: string;
 };
 
 export type InputRealEstate = {
@@ -18,6 +19,8 @@ export type InputRealEstate = {
 	estimated_apy: string;
 	mortgage_value: string;
 	mortgage_apy: string;
+	mortgage_paid_monthly: string;
+	after_payoff_target_security_id: string;
 };
 
 /** We use this parsed config to step through time and alter values from the initial config. */
@@ -30,7 +33,10 @@ export type StepSecurity = {
 	id: string;
 	name: string;
 	value: number;
+
+	/** Formatted as a percentage. So we store `6` here which is `6%`. */
 	estimated_apy: number;
+	added_monthly: number;
 };
 
 export type StepRealEstate = {
@@ -40,4 +46,8 @@ export type StepRealEstate = {
 	estimated_apy: number;
 	mortgage_value: number;
 	mortgage_apy: number;
+	mortgage_paid_monthly: number;
+
+	/** Where the money goes after the mortgage is paid off. */
+	after_payoff_target_security_id: string;
 };

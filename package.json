@@ -10,8 +10,13 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^7.1.0",
+		"@fortawesome/free-solid-svg-icons": "^7.1.0",
+		"@fortawesome/vue-fontawesome": "^3.1.2",
+		"apexcharts": "^5.3.5",
 		"uuid": "^13.0.0",
-		"vue": "^3.5.22"
+		"vue": "^3.5.22",
+		"vue3-apexcharts": "^1.10.0"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.37.0",
