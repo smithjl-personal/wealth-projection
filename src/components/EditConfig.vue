@@ -84,7 +84,9 @@
 		Load Config from Local Storage
 	</button>
 	<h3>
-		<button type="button" @click="emit('add-security')">+</button>
+		<button type="button" @click="emit('add-security')">
+			<FontAwesomeIcon icon="plus" />
+		</button>
 		Securities
 	</h3>
 	<table>
@@ -115,7 +117,9 @@
 	</table>
 
 	<h3>
-		<button type="button" @click="emit('add-real-estate')">+</button>
+		<button type="button" @click="emit('add-real-estate')">
+			<FontAwesomeIcon icon="plus" />
+		</button>
 		Real Estate
 	</h3>
 	<table>

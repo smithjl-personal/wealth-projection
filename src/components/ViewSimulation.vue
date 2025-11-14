@@ -219,7 +219,10 @@
 		<option :value="30">30 years</option>
 	</select>
 	<br />
-	<button type="button" @click="simulate">Simulate</button>
+	<button type="button" @click="simulate">
+		<FontAwesomeIcon icon="paper-plane" />
+		Simulate
+	</button>
 
 	<VueApexCharts type="area" :options="chartOptions" :series="series" />
 
