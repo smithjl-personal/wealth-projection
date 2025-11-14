@@ -5,6 +5,7 @@
 		StepRealEstate,
 		StepSecurity,
 	} from "../types/config";
+	import type { ApexTooltipContext } from "../types/apexcharts";
 	import {
 		getNextMonthRealEstateStep,
 		getNextMonthSecurityStep,
@@ -12,13 +13,6 @@
 	} from "../utils/config";
 	import type { ApexOptions } from "apexcharts";
 	import { ref } from "vue";
-
-	// Need this to satisfy the linter, since ApexCharts decided not to type this...
-	interface TooltipContext {
-		globals: {
-			seriesNames: string[];
-		};
-	}
 
 	const props = defineProps<{ config: InputConfig }>();
 
@@ -44,9 +38,9 @@
 			intersect: false,
 			custom: (opts: {
 				series: number[][];
-				_seriesIndex: number;
+				seriesIndex: number;
 				dataPointIndex: number;
-				w: TooltipContext;
+				w: ApexTooltipContext;
 			}): string => {
 				const usdFormatter = new Intl.NumberFormat("en-US", {
 					style: "currency",
@@ -63,10 +57,12 @@
 					const assetName =
 						w?.globals?.seriesNames?.[seriesIndex] ??
 						`Series ${seriesIndex}`;
+					const color = w.globals.colors[seriesIndex] ?? "black";
 					const assetValue =
 						series?.[seriesIndex]?.[dataPointIndex] ?? 0;
 					resultHTML += `
                         <div>
+                            <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${color}; margin-right:8px;"></span>
                             <span style="font-weight:700; margin-bottom:6px;">${assetName}</span>:
                             ${usdFormatter.format(assetValue)}
                         </div>`;
