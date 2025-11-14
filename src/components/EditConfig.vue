@@ -95,7 +95,7 @@
 		</button>
 		Securities
 	</h3>
-	<table>
+	<table class="table">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -140,7 +140,7 @@
 		</button>
 		Real Estate
 	</h3>
-	<table>
+	<table class="table">
 		<thead>
 			<tr>
 				<th>Name</th>
