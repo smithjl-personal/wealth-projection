@@ -24,6 +24,9 @@
 			added_monthly: "",
 		});
 	}
+	function removeSecurity(index: number) {
+		config.value.securities.splice(index, 1);
+	}
 
 	function addRealEstate() {
 		config.value.real_estate.push({
@@ -36,6 +39,9 @@
 			mortgage_paid_monthly: "",
 			after_payoff_target_security_id: "",
 		});
+	}
+	function removeRealEstate(index: number) {
+		config.value.real_estate.splice(index, 1);
 	}
 </script>
 
@@ -56,7 +62,9 @@
 	<EditConfig
 		:config="config"
 		@add-security="addSecurity"
+		@remove-security="removeSecurity"
 		@add-real-estate="addRealEstate"
+		@remove-real-estate="removeRealEstate"
 		@set-config="setConfig"
 	/>
 	<ViewSimulation :config="config" />

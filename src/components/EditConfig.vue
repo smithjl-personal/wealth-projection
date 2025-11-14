@@ -2,7 +2,13 @@
 	import type { InputConfig } from "../types/config";
 	import { isInputConfig } from "../utils/config";
 
-	const emit = defineEmits(["add-security", "add-real-estate", "set-config"]);
+	const emit = defineEmits([
+		"add-security",
+		"remove-security",
+		"add-real-estate",
+		"remove-real-estate",
+		"set-config",
+	]);
 	const props = defineProps<{ config: InputConfig }>();
 
 	async function copyConfigToClipboard() {
@@ -96,10 +102,14 @@
 				<th>Current Value ($)</th>
 				<th>Estimated APY (%)</th>
 				<th>Added Per Month ($)</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="security in config.securities" :key="security.id">
+			<tr
+				v-for="(security, index) in config.securities"
+				:key="security.id"
+			>
 				<td>
 					<input type="text" v-model="security.name" />
 				</td>
@@ -111,6 +121,14 @@
 				</td>
 				<td>
 					<input type="text" v-model="security.added_monthly" />
+				</td>
+				<td>
+					<button
+						type="button"
+						@click="emit('remove-security', index)"
+					>
+						<FontAwesomeIcon icon="trash" />
+					</button>
 				</td>
 			</tr>
 		</tbody>
@@ -131,19 +149,29 @@
 				<th>Mortgage Value ($)</th>
 				<th>Mortgage APY (%)</th>
 				<th>
+					<span
+						title="This should only include principal and interest. Do not include taxes and insurance here."
+					>
+						<FontAwesomeIcon icon="info-circle" />
+					</span>
 					Mortgage Paid Monthly ($)
-
-					<!-- TODO: Figure out a better spot to put this info. -->
-					<div>
-						This should only include principal and interest. Do not
-						include taxes and insurance here.
-					</div>
 				</th>
-				<th>Assets After Payoff</th>
+				<th>
+					<span
+						title="This gives you the option to specify where the monthly payment for this mortgage should go once paid off."
+					>
+						<FontAwesomeIcon icon="info-circle" />
+					</span>
+					Assets After Payoff
+				</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="real_estate in config.real_estate" :key="real_estate.id">
+			<tr
+				v-for="(real_estate, index) in config.real_estate"
+				:key="real_estate.id"
+			>
 				<td>
 					<input type="text" v-model="real_estate.name" />
 				</td>
@@ -178,6 +206,14 @@
 							{{ security.name }}
 						</option>
 					</select>
+				</td>
+				<td>
+					<button
+						type="button"
+						@click="emit('remove-real-estate', index)"
+					>
+						<FontAwesomeIcon icon="trash" />
+					</button>
 				</td>
 			</tr>
 		</tbody>
